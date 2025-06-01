@@ -2,7 +2,7 @@ import { io, Socket } from 'socket.io-client';
 import { useConnectionStore } from '../store/useConnectionStore';
 
 // Используем URL продакшн сервера
-const SOCKET_URL = 'https://voice-chat-server.onrender.com';
+const SOCKET_URL = 'https://voice-chat-server-vduh.onrender.com';
 
 class SocketService {
   private socket: Socket | null = null;
