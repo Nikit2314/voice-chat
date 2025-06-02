@@ -1,0 +1,14 @@
+AddType application/javascript .js
+AddType application/javascript .mjs
+AddType application/javascript .ts
+AddType application/javascript .tsx
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /voice-chat/
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-l
+  RewriteRule . /voice-chat/index.html [L]
+</IfModule> 
