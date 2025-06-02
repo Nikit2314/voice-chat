@@ -13,7 +13,7 @@
 
 @layer components {
   .btn {
-    @apply inline-flex items-center justify-center rounded-full py-2.5 px-5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 disabled:pointer-events-none disabled:opacity-50;
+    @apply inline-flex items-center justify-center rounded-full py-2.5 px-5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-600 disabled:pointer-events-none disabled:opacity-50;
   }
   
   .btn-primary {
