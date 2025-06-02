@@ -14,29 +14,29 @@ class SocketService {
   private connectionTimeout: ReturnType<typeof setTimeout> | null = null;
 
   connect(username: string | null): Promise<string> {
-    this.currentUsername = username;
+      this.currentUsername = username;
 
-    return new Promise((resolve, reject) => {
+      return new Promise((resolve, reject) => {
       console.log('🔌 Connecting to:', SOCKET_URL);
-
+        
       // Safety timeout for initial connection
-      this.connectionTimeout = setTimeout(() => {
-        if (!this.socket?.connected) {
+        this.connectionTimeout = setTimeout(() => {
+          if (!this.socket?.connected) {
           console.warn('⚠️ Connection timeout, retrying...');
-          this.handleReconnect();
-        }
-      }, 60000);
-
-      this.socket = io(SOCKET_URL, {
-        transports: ['websocket', 'polling'],
-        reconnection: true,
+            this.handleReconnect();
+          }
+        }, 60000);
+        
+        this.socket = io(SOCKET_URL, {
+          transports: ['websocket', 'polling'],
+          reconnection: true,
         reconnectionAttempts: this.maxReconnectAttempts,
         reconnectionDelay: this.reconnectDelay,
         timeout: 10000
+        });
+        
+        this.setupSocketListeners(resolve, reject);
       });
-
-      this.setupSocketListeners(resolve, reject);
-    });
   }
 
   private setupSocketListeners(
@@ -52,7 +52,7 @@ class SocketService {
         clearTimeout(this.connectionTimeout);
         this.connectionTimeout = null;
       }
-
+      
       const socketId = this.socket?.id;
       if (!socketId) {
         return reject('No socket ID received');
@@ -60,13 +60,13 @@ class SocketService {
 
       this.userId = socketId;
       this.reconnectAttempts = 0;
-
+      
       useConnectionStore.getState().setSocketConnected(true);
       useConnectionStore.getState().setCurrentUser({
         id: socketId,
         username: this.currentUsername || 'Anonymous'
       });
-
+      
       resolve(socketId);
     });
 
@@ -114,7 +114,7 @@ class SocketService {
       console.warn('❗ Cannot search: socket or userId missing');
       return;
     }
-
+    
     console.log('🔍 Finding a partner...');
     useConnectionStore.getState().setConnectionStatus({ status: 'searching' });
     this.socket.emit('find_partner');
@@ -125,7 +125,7 @@ class SocketService {
       console.warn('❗ Socket not connected');
       return;
     }
-
+    
     console.log('🔕 Disconnecting from partner');
     this.socket.emit('disconnect_partner');
     useConnectionStore.getState().setConnectionStatus({ status: 'disconnected' });
@@ -136,12 +136,12 @@ class SocketService {
       clearTimeout(this.connectionTimeout);
       this.connectionTimeout = null;
     }
-
+    
     if (this.socket) {
       console.log('🔌 Disconnecting socket...');
       this.socket.disconnect();
     }
-
+    
     this.socket = null;
     this.userId = null;
     this.currentUsername = null;
