@@ -1,4 +1,5 @@
-import { io, Socket } from 'socket.io-client';
+import { Socket } from 'socket.io-client';
+import io from 'socket.io-client';
 import { useConnectionStore } from '../store/useConnectionStore';
 
 // Используем публичный URL сервера
@@ -31,8 +32,7 @@ class SocketService {
           reconnection: true,
           reconnectionAttempts: 5,
           reconnectionDelay: 1000,
-          timeout: 10000,
-          withCredentials: true
+          timeout: 10000
         });
         
         this.setupSocketListeners(resolve, reject);
